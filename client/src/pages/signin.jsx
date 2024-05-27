@@ -1,23 +1,29 @@
 import { Alert, Button, Label, Spinner, TextInput } from "flowbite-react";
 import React, { useState } from "react";
-import { Link, json, useNavigate } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
+import {
+  signInStart,
+  signInSuccess,
+  signInFailure,
+} from "../redux/user/userSlice";
+import { useDispatch, useSelector } from "react-redux";
+import OAuth from "../components/oAuth";
 
 export default function SignIn() {
   const [formData, setFormData] = useState({});
-  const [errorMessage, setErrorMessage] = useState(null);
-  const [isLoading, setIsLoading] = useState(false);
+  const { isLoading, error: errorMessage } = useSelector((state) => state.user);
   const navigate = useNavigate();
+  const dispatch = useDispatch();
   const handelonchange = (e) => {
-    setFormData({ ...formData, [e.target.id]: e.target.value });
+    setFormData({ ...formData, [e.target.id]: e.target.value.trim() });
   };
   const handelonSubmit = async (e) => {
     e.preventDefault();
     if (!formData.email || !formData.password) {
-      return setErrorMessage("Please fill out all fields");
+      return dispatch(signInFailure("Please fill out all fields"));
     }
     try {
-      setIsLoading(true);
-      setErrorMessage(false);
+      dispatch(signInStart());
       const res = await fetch("api/auth/signin", {
         method: "POST",
         headers: { "content-Type": "application/json" },
@@ -25,15 +31,14 @@ export default function SignIn() {
       });
       const data = await res.json();
       if (data.success === false) {
-        setErrorMessage(data.message);
+        dispatch(signInFailure(data.message));
       }
-      setIsLoading(false);
-      if(res.ok){
-        navigate('/')
+      if (res.ok) {
+        dispatch(signInSuccess(data));
+        navigate("/");
       }
     } catch (error) {
-      setErrorMessage(error.message);
-      setIsLoading(false);
+      dispatch(signInFailure(error.message));
     }
   };
   return (
@@ -87,6 +92,7 @@ export default function SignIn() {
                 "Sign in"
               )}
             </Button>
+            <OAuth />
           </form>
           <div className="flex gap-2 mt-5 text-sm">
             <span> Dont Have and account ?</span>
