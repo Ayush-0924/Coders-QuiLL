@@ -21,8 +21,8 @@ const userschema = new mongoose.Schema({
   },
   isAdmin: {
     type: Boolean,
-    default: false
-  }
+    default: false,
+  },
 },{timestamps: true } 
 // by adding timestamps mongodb will automatically save two 
 // data(because two data are required to login so two data will be saved)
