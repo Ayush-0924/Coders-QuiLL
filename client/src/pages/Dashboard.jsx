@@ -20,7 +20,7 @@ export default function Dashboard() {
         <DashSideBar />
       </div>
       {tab === "profile" && <DashProfile />}
-      {tab === 'posts' && <DashPosts/>}
+      {tab === 'posts' && <DashPosts />}
     </div>
   );
 }
