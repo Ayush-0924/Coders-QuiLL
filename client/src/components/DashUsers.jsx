@@ -2,14 +2,14 @@ import { Button, Modal, Table } from "flowbite-react";
 import React from "react";
 import { useEffect, useState } from "react";
 import { HiOutlineExclamationCircle } from "react-icons/hi";
-import {FaCheck, FaTimes} from 'react-icons/fa';
+import { FaCheck, FaTimes } from "react-icons/fa";
 import { useSelector } from "react-redux";
 import { Link } from "react-router-dom";
 
 export default function DashUsers() {
   const { currentuser } = useSelector((state) => state.user);
   const [users, setUsers] = useState([]);
-  const [userIdToDelete, setUserIdToDelete] = useState('');
+  const [userIdToDelete, setUserIdToDelete] = useState("");
   const [showMore, setShowMore] = useState(true);
   const [showModal, setShowModal] = useState(false);
 
@@ -36,9 +36,7 @@ export default function DashUsers() {
   const handleOnShowMore = async () => {
     const startIndex = users.length;
     try {
-      const res = await fetch(
-        `/api/user/getusers?startIndex=${startIndex}`
-      );
+      const res = await fetch(`/api/user/getusers?startIndex=${startIndex}`);
       const data = await res.json();
       if (res.ok) {
         setUsers((prev) => [...prev, ...data.users]);
@@ -51,7 +49,20 @@ export default function DashUsers() {
     }
   };
   const handleDeletePost = async () => {
-    
+    try {
+      const res = await fetch(`/api/user/delete/${userIdToDelete}`, {
+        method: "DELETE",
+      });
+      const data = await res.json();
+      if(res.ok){
+        setUsers((prev) => prev.filter((user) => user._id !== userIdToDelete));
+        setShowModal(false);
+      }else{
+        console.log(data.message);
+      }
+    } catch (error) {
+      console.log(error.message);
+    }
   };
 
   return (
@@ -84,7 +95,13 @@ export default function DashUsers() {
                   </Table.Cell>
                   <Table.Cell>{user.username}</Table.Cell>
                   <Table.Cell>{user.email}</Table.Cell>
-                  <Table.Cell>{user.isAdmin? <FaCheck className="text-green-500"/> : <FaTimes className="text-red-500"/>}</Table.Cell>
+                  <Table.Cell>
+                    {user.isAdmin ? (
+                      <FaCheck className="text-green-500" />
+                    ) : (
+                      <FaTimes className="text-red-500" />
+                    )}
+                  </Table.Cell>
                   <Table.Cell>
                     <span
                       onClick={() => {
