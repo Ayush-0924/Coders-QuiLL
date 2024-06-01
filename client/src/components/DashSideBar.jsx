@@ -1,6 +1,13 @@
 import React, { useEffect, useState } from "react";
 import { Sidebar } from "flowbite-react";
-import { HiArrowSmRight, HiUser, HiDocumentText,HiOutlineUserGroup,HiAnnotation } from "react-icons/hi";
+import {
+  HiArrowSmRight,
+  HiUser,
+  HiDocumentText,
+  HiOutlineUserGroup,
+  HiAnnotation,
+  HiChartPie,
+} from "react-icons/hi";
 import { Link, useLocation } from "react-router-dom";
 import { useDispatch } from "react-redux";
 import { signOutSuccess } from "../redux/user/userSlice";
@@ -38,11 +45,28 @@ export default function DashSideBar() {
     <Sidebar className="w-full md:w-56">
       <Sidebar.Items>
         <Sidebar.ItemGroup className="flex flex-col gap-1">
+          {currentuser && currentuser.isAdmin && (
+            <Link to="/dashboard?tab=dash">
+              <Sidebar.Item
+                active={tab === "dash" || !tab}
+                icon={HiChartPie}
+                as="div"
+              >
+                Dashboard
+              </Sidebar.Item>
+            </Link>
+          )}
           <Link to="/dashboard?tab=profile">
             <Sidebar.Item
               active={tab === "profile"}
               icon={HiUser}
-              label={currentuser.isAdmin ? <span className="text-white">Admin</span> : <span className="text-white">user</span>}
+              label={
+                currentuser.isAdmin ? (
+                  <span className="text-white">Admin</span>
+                ) : (
+                  <span className="text-white">user</span>
+                )
+              }
               labelColor="dark"
               as="div"
             >
@@ -52,7 +76,7 @@ export default function DashSideBar() {
               <Link to="/dashboard?tab=posts">
                 <Sidebar.Item
                   active={tab === "post"}
-                  icon={HiDocumentText }
+                  icon={HiDocumentText}
                   as="div"
                 >
                   posts
@@ -60,26 +84,27 @@ export default function DashSideBar() {
               </Link>
             )}
             {currentuser.isAdmin && (
-              <Link to="/dashboard?tab=users">
-                <Sidebar.Item
-                  active={tab === "users"}
-                  icon={HiOutlineUserGroup }
-                  as="div"
-                >
-                  users
-                </Sidebar.Item>
-              </Link>
-            )}
-            {currentuser.isAdmin && (
-              <Link to="/dashboard?tab=comments">
-                <Sidebar.Item
-                  active={tab === "comments"}
-                  icon={HiAnnotation }
-                  as="div"
-                >
-                  comments
-                </Sidebar.Item>
-              </Link>
+              <>
+                <Link to="/dashboard?tab=users">
+                  <Sidebar.Item
+                    active={tab === "users"}
+                    icon={HiOutlineUserGroup}
+                    as="div"
+                  >
+                    users
+                  </Sidebar.Item>
+                </Link>
+
+                <Link to="/dashboard?tab=comments">
+                  <Sidebar.Item
+                    active={tab === "comments"}
+                    icon={HiAnnotation}
+                    as="div"
+                  >
+                    comments
+                  </Sidebar.Item>
+                </Link>
+              </>
             )}
           </Link>
           <Sidebar.Item
