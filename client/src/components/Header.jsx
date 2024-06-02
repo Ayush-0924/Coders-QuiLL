@@ -17,7 +17,6 @@ export default function Header() {
   const { theme } = useSelector((state) => state.theme);
   const [searchTerm, setSearchTerm] = useState("");
 
-
   useEffect(() => {
     const urlParams = new URLSearchParams(location.search);
     const searchTermFromUrl = urlParams.get("searchTerm");
@@ -54,11 +53,28 @@ export default function Header() {
         to="/"
         className="self-center whitespace-nowrap text-sm sm:text-xl font-semibold dark:text-white"
       >
-        <span className="px-2 py-1 bg-gradient-to-r from-indigo-600 via-purple-500 to-red-400 rounded-lg text-white">
+        <span className="ms-8 px-2 py-1 bg-gradient-to-r from-indigo-600 via-purple-500 to-red-400 rounded-lg text-white">
           Tech
         </span>
         Tales
       </Link>
+      <div className="hidden lg:flex space-x-4">
+        <Link to="/" className={`nav-link ${path === "/" && "font-bold"}`}>
+          Home
+        </Link>
+        <Link
+          to="/projects"
+          className={`nav-link ${path === "/projects" && "font-bold"}`}
+        >
+          Projects
+        </Link>
+        <Link
+          to="/about"
+          className={`nav-link ${path === "/about" && "font-bold"}`}
+        >
+          About
+        </Link>
+      </div>
       <form onSubmit={handleSubmit}>
         <TextInput
           type="text"
@@ -103,7 +119,7 @@ export default function Header() {
           </Dropdown>
         ) : (
           <Link to="/sign-in">
-            <Button gradientDuoTone="purpleToBlue" outline>
+            <Button className="me-8" gradientDuoTone="purpleToBlue" outline>
               Sign In
             </Button>
           </Link>
