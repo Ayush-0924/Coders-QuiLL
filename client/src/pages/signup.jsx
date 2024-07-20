@@ -44,9 +44,9 @@ export default function Signup() {
         <div className="flex-1">
           <Link to="/" className="font-bold dark:text-white text-5xl">
             <span className=" px-2 py-1 bg-gradient-to-r from-indigo-600 via-purple-500 to-red-400 rounded-lg text-white">
-              Tech
+              Coders
             </span>
-            Tales
+            QuiLL
           </Link>
           <p className="text-sm mt-5">
             This is a demo project .You can sign up with your email and password

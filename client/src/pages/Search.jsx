@@ -125,7 +125,7 @@ export default function Search() {
             </Select>
           </div>
           <div className='flex items-center gap-2'>
-            <label className='font-semibold'>Category:</label>
+            <label className='font-semibold'>Category:</label>  
             <Select
               onChange={handleChange}
               value={sidebarData.category}

@@ -54,9 +54,9 @@ export default function Header() {
         className="self-center whitespace-nowrap text-sm sm:text-xl font-semibold dark:text-white"
       >
         <span className="ms-8 px-2 py-1 bg-gradient-to-r from-indigo-600 via-purple-500 to-red-400 rounded-lg text-white">
-          Tech
+           Coders
         </span>
-        Tales
+        QuiLL
       </Link>
       <div className="hidden lg:flex space-x-4">
         <Link to="/" className={`nav-link ${path === "/" && "font-bold"}`}>
